@@ -40,7 +40,7 @@ extern inline lapack_int LAPACKE_dsyev_work( int matrix_layout, char jobz, char 
     if( matrix_layout == LAPACK_COL_MAJOR ) {
         /* Call LAPACK function and adjust info */
         F77_NAME(dsyev)
-        ( &jobz, &uplo, &n, a, &lda, w, work, &lwork, &info );
+        ( &jobz, &uplo, &n, a, &lda, w, work, &lwork, &info FCONE FCONE);
         if( info < 0 ) {
             info = info - 1;
         }
@@ -56,7 +56,7 @@ extern inline lapack_int LAPACKE_dsyev_work( int matrix_layout, char jobz, char 
         /* Query optimal working array(s) size if requested */
         if( lwork == -1 ) {
             F77_NAME(dsyev)
-            ( &jobz, &uplo, &n, a, &lda_t, w, work, &lwork, &info );
+            ( &jobz, &uplo, &n, a, &lda_t, w, work, &lwork, &info FCONE FCONE);
             return (info < 0) ? (info - 1) : info;
         }
         /* Allocate memory for temporary array(s) */
@@ -69,7 +69,7 @@ extern inline lapack_int LAPACKE_dsyev_work( int matrix_layout, char jobz, char 
         LAPACKE_dsy_trans( matrix_layout, uplo, n, a, lda, a_t, lda_t );
         /* Call LAPACK function and adjust info */
         F77_NAME(dsyev)
-        ( &jobz, &uplo, &n, a_t, &lda_t, w, work, &lwork, &info );
+        ( &jobz, &uplo, &n, a_t, &lda_t, w, work, &lwork, &info FCONE FCONE);
         if( info < 0 ) {
             info = info - 1;
         }

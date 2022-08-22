@@ -74,7 +74,7 @@ extern inline void cblas_dgemm(const CBLAS_LAYOUT layout, const CBLAS_TRANSPOSE 
 
     F77_NAME(dgemm)
     (F77_TA, F77_TB, &F77_M, &F77_N, &F77_K, &alpha, A, &F77_lda, B, &F77_ldb,
-     &beta, C, &F77_ldc);
+     &beta, C, &F77_ldc FCONE FCONE);
   } else if (layout == CblasRowMajor) {
     RowMajorStrg = 1;
     if (TransA == CblasTrans)
@@ -108,7 +108,7 @@ extern inline void cblas_dgemm(const CBLAS_LAYOUT layout, const CBLAS_TRANSPOSE 
 
     F77_NAME(dgemm)
     (F77_TA, F77_TB, &F77_N, &F77_M, &F77_K, &alpha, B, &F77_ldb, A, &F77_lda,
-     &beta, C, &F77_ldc);
+     &beta, C, &F77_ldc FCONE FCONE);
   } else
     cblas_xerbla(1, "cblas_dgemm", "Illegal layout setting, %d\n", layout);
   CBLAS_CallFromC = 0;

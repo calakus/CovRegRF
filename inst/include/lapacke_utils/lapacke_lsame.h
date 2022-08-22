@@ -34,5 +34,5 @@
 // #include "lapacke_utils.h"
 
 inline lapack_logical LAPACKE_lsame(char ca, char cb) {
-  return (lapack_logical)F77_NAME(lsame)(&ca, &cb);
+  return (lapack_logical)F77_NAME(lsame)(&ca, &cb FCONE FCONE);
 }

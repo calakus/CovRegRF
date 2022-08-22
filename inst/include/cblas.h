@@ -2,9 +2,12 @@
 #define CBLAS_H
 
 #include <stddef.h>
-
-#include <R.h>
+#include <Rconfig.h>
 #include <R_ext/BLAS.h>
+#include <R.h>
+#ifndef FCONE
+# define FCONE
+#endif
 
 #ifdef __cplusplus
 extern "C" { /* Assume C declarations for C++ */

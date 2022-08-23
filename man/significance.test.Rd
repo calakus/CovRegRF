@@ -42,7 +42,7 @@ covariates. The default is \code{NULL}, which tests for the global effect
 of the whole set of covariates.}
 }
 \value{
-An object of class \code{(corerf, significancetest)} which is a list
+An object of class \code{(covregrf, significancetest)} which is a list
 with the following components:
 
   \item{pvalue}{Estimated *p*-value, see below for details.}
@@ -92,7 +92,7 @@ We perform a hypothesis test to evaluate the effect of a subset of covariates
   the unconditional covariance matrix estimate of \eqn{Y} as
   \eqn{\Sigma_{root}} which is computed as the sample covariance matrix of
   \eqn{Y}, and the conditional covariance matrix of \eqn{Y} given \eqn{X} as
-  \eqn{\Sigma_{X}} which is obtained with \code{corerf()}. If there is a
+  \eqn{\Sigma_{X}} which is obtained with \code{covregrf()}. If there is a
   global effect of \eqn{X} on the covariance matrix estimates, the
   \eqn{\Sigma_{X}} should be significantly different from \eqn{\Sigma_{root}}.
   The null hypothesis for this particular case is
@@ -102,7 +102,7 @@ We perform a hypothesis test to evaluate the effect of a subset of covariates
 \examples{
 \donttest{
 ## load generated example data
-data(data, package = "CoReRF")
+data(data, package = "CovRegRF")
 xvar.names <- colnames(data$X)
 yvar.names <- colnames(data$Y)
 data1 <- data.frame(data$X, data$Y)
@@ -121,7 +121,7 @@ significance.test(formula, data1, params.rfsrc = list(ntree = 50),
 
 }
 \seealso{
-\code{\link{corerf}}
-  \code{\link{predict.corerf}}
-  \code{\link{print.corerf}}
+\code{\link{covregrf}}
+  \code{\link{predict.covregrf}}
+  \code{\link{print.covregrf}}
 }

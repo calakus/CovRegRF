@@ -296,10 +296,10 @@ uint     *RF_rLevelsMax;
 uint     *RF_rLevelsCnt;
 uint    **RF_rLevels;
 uint      RF_ytry;
-uint      RF_famCovReg; /* for corerf */
-uint      RF_mvrespSize; /* for corerf */
-double  **RF_mvrespIn; /* for corerf */
-double ***RF_mvresp; /* for corerf */
+uint      RF_famCovReg; /* for covregrf */
+uint      RF_mvrespSize; /* for covregrf */
+double  **RF_mvrespIn; /* for covregrf */
+double ***RF_mvresp; /* for covregrf */
 double    RF_wibsTau;
 double    RF_xPreSort;
 double   **RF_qStarPlus;
@@ -6341,7 +6341,7 @@ void stackShadow (char mode, uint treeID) {
         }
       }
     }
-    if(RF_famCovReg == 1){/* for corerf */
+    if(RF_famCovReg == 1){/* for covregrf */
       RF_mvresp[treeID] = (double **) new_vvector(1, RF_mvrespSize, NRUTIL_DPTR);
       for (p = 1; p <= RF_mvrespSize; p++) {
         RF_mvresp[treeID][p] = RF_mvrespIn[p];
@@ -6417,7 +6417,7 @@ void unstackShadow (char mode, uint treeID) {
       }
     }
     free_new_vvector(RF_observation[treeID], 1, RF_xSize, NRUTIL_DPTR);
-    for (p = 1; p <= RF_mpIndexSize; p++) { /* for corerf */
+    for (p = 1; p <= RF_mpIndexSize; p++) { /* for covregrf */
       if (RF_mpIndex[p] > 0) {
         free_dvector(RF_mvresp[treeID][(uint) RF_mpIndex[p]], 1, RF_observationSize);
       }
@@ -13225,7 +13225,7 @@ char customMultivariateSplit (uint       treeID,
             double *userResponse = dvector(1, nonMissMembrSize);
             char   *userSplitIndicator = cvector(1, nonMissMembrSize);
             double **userFeature = NULL;
-            if (RF_famCovReg == 1) { // for corerf the userFeature information is changed
+            if (RF_famCovReg == 1) { // for covregrf the userFeature information is changed
               if (RF_mvrespSize > 0) {
                 userFeature = dmatrix(1, RF_mvrespSize, 1, nonMissMembrSize);
               }
@@ -13255,7 +13255,7 @@ char customMultivariateSplit (uint       treeID,
                                  & currentMembrIter);
               rghtSize = nonMissMembrSize - leftSize;
               // if ((leftSize != 0) && (rghtSize != 0)) {
-              if ((leftSize > RF_mvrespSize) && (rghtSize > RF_mvrespSize)) { //corerf
+              if ((leftSize > RF_mvrespSize) && (rghtSize > RF_mvrespSize)) { //covregrf
                 delta        = 0.0;
                 deltaPartial = 0.0;
                 deltaNorm    = 0;
@@ -13287,7 +13287,7 @@ char customMultivariateSplit (uint       treeID,
                         if (secondNonMissMembrFlag[r][indxx[k]] == TRUE) {
                           userResponse[++m] = RF_response[treeID][r][ repMembrIndx[nonMissMembrIndx[indxx[k]]] ];
                           userSplitIndicator[m] = localSplitIndicator[ nonMissMembrIndx[indxx[k]] ];
-                          if(RF_famCovReg == 1){ //corerf
+                          if(RF_famCovReg == 1){ //covregrf
                             for (rr = 1; rr <= RF_mvrespSize; rr++) {
                               userFeature[rr][m] = RF_mvresp[treeID][rr][ repMembrIndx[nonMissMembrIndx[indxx[k]]] ];
                             }
@@ -13370,7 +13370,7 @@ char customMultivariateSplit (uint       treeID,
                                & localSplitIndicator,
                                splitVectorPtr,
                                splitInfoMax);
-            if (RF_famCovReg == 1) { // updated for corerf
+            if (RF_famCovReg == 1) { // updated for covregrf
               if (RF_mvrespSize > 0) {
                 free_dmatrix (userFeature, 1, RF_mvrespSize, 1, nonMissMembrSize);
               }
@@ -23764,7 +23764,7 @@ char stackMissingArraysPhase1(char mode) {
     for (i = 1 ; i <= RF_ntree; i++) {
       RF_observation[i] = RF_observationIn;
     }
-    if (RF_famCovReg == 1) {/* for corerf */
+    if (RF_famCovReg == 1) {/* for covregrf */
       RF_mvresp = (double ***) new_vvector(1, RF_ntree, NRUTIL_DPTR2);
       for (i = 1 ; i <= RF_ntree; i++) {
         RF_mvresp[i] = RF_mvrespIn;
@@ -23821,7 +23821,7 @@ char stackMissingArraysPhase1(char mode) {
           for (i = 1 ; i <= RF_ntree; i++) {
             RF_observation[i] = NULL;
           }
-          if (RF_famCovReg == 1) { /* for corerf */
+          if (RF_famCovReg == 1) { /* for covregrf */
             for (i = 1 ; i <= RF_ntree; i++) {
               RF_mvresp[i] = NULL;
             }
@@ -24097,7 +24097,7 @@ void unstackMissingArrays(char mode) {
       }
     }
     free_new_vvector(RF_observation, 1, RF_ntree, NRUTIL_DPTR2);
-    if(RF_famCovReg == 1){/* for corerf */
+    if(RF_famCovReg == 1){/* for covregrf */
       free_new_vvector(RF_mvresp, 1, RF_ntree, NRUTIL_DPTR2);
     }
     if (RF_optHigh & OPT_DATA_PASG) {
@@ -34371,9 +34371,9 @@ SEXP rfsrcGrow(SEXP traceFlag,
                SEXP xWeightStat,
                SEXP yWeight,
                SEXP xWeight,
-               SEXP famCovReg, /* for corerf */
-               SEXP mvrespSize, /* for corerf */
-               SEXP mvresp, /* for corerf */
+               SEXP famCovReg, /* for covregrf */
+               SEXP mvrespSize, /* for covregrf */
+               SEXP mvresp, /* for covregrf */
                SEXP timeInterest,
                SEXP nImpute,
                SEXP perfBlock,
@@ -34546,9 +34546,9 @@ SEXP rfsrcGrow(SEXP traceFlag,
   RF_xWeightStat          = REAL(xWeightStat);  RF_xWeightStat--;
   RF_yWeight              = REAL(yWeight);  RF_yWeight--;
   RF_xWeight              = REAL(xWeight);  RF_xWeight--;
-  RF_famCovReg            = INTEGER(famCovReg)[0]; /* for corerf */
-  RF_mvrespSize           = INTEGER(mvrespSize)[0]; /* for corerf */
-  if (RF_famCovReg == 1){ /* for corerf */
+  RF_famCovReg            = INTEGER(famCovReg)[0]; /* for covregrf */
+  RF_mvrespSize           = INTEGER(mvrespSize)[0]; /* for covregrf */
+  if (RF_famCovReg == 1){ /* for covregrf */
     RF_mvrespIn             = (double **) copy2DObject(mvresp, NATIVE_TYPE_NUMERIC, TRUE, RF_mvrespSize, RF_observationSize);
   }
   RF_timeInterestSize = INTEGER(VECTOR_ELT(timeInterest, 0))[0];
@@ -34605,7 +34605,7 @@ SEXP rfsrcGrow(SEXP traceFlag,
   free_2DObject(RF_qStarPlus, NATIVE_TYPE_NUMERIC, RF_qStarPlus != NULL, RF_ySize, RF_ySize);
   free_2DObject(RF_vtryArray, NATIVE_TYPE_INTEGER, RF_vtry > 0, RF_ntree, RF_xSize);  
   memoryCheck();
-  if (RF_famCovReg == 1){ /* for corerf */
+  if (RF_famCovReg == 1){ /* for covregrf */
     free_2DObject(RF_mvrespIn, NATIVE_TYPE_NUMERIC, TRUE, RF_mvrespSize, RF_observationSize);
   }
   RF_cpuTime_[1] = (double) (clock() - cpuTimeStart) / CLOCKS_PER_SEC;

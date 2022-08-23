@@ -2148,9 +2148,9 @@ SEXP rfsrcGrow(SEXP traceFlag,
                SEXP xWeightStat,
                SEXP yWeight,
                SEXP xWeight,
-               SEXP famCovReg, /* for corerf */
-               SEXP mvrespSize, /* for corerf */
-               SEXP mvresp, /* for corerf */
+               SEXP famCovReg, /* for covregrf */
+               SEXP mvrespSize, /* for covregrf */
+               SEXP mvresp, /* for covregrf */
                SEXP timeInterest,
                SEXP nImpute,
                SEXP perfBlock,

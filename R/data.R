@@ -16,6 +16,6 @@
 #' @examples
 #' \donttest{
 #' ## load generated example data
-#' data(data, package = "CoReRF")
+#' data(data, package = "CovRegRF")
 #' }
 "data"

@@ -1,8 +1,8 @@
-#' Plot variable importance measures for corerf objects
+#' Plot variable importance measures for covregrf objects
 #'
 #' Plots variable importance measures (VIMP) for covariates for training data.
 #'
-#' @param x An object of class (corerf, grow) or (corerf, vimp).
+#' @param x An object of class (covregrf, grow) or (covregrf, vimp).
 #' @param sort Should the covariates be sorted according to their variable
 #'   importance measures in the plot? The default is \code{TRUE}.
 #' @param ndisp Number of covariates to display in the plot. If \code{sort}=
@@ -18,7 +18,7 @@
 #' @examples
 #' \donttest{
 #' ## load generated example data
-#' data(data, package = "CoReRF")
+#' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
 #' yvar.names <- colnames(data$Y)
 #' data1 <- data.frame(data$X, data$Y)
@@ -32,20 +32,20 @@
 #' ## formula object
 #' formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 #'
-#' ## train corerf
-#' corerf.obj <- corerf(formula, traindata, params.rfsrc = list(ntree = 50),
+#' ## train covregrf
+#' covregrf.obj <- covregrf(formula, traindata, params.rfsrc = list(ntree = 50),
 #'   importance = TRUE)
 #'
 #' ## plot vimp
-#' plot.vimp(corerf.obj)
+#' plot.vimp(covregrf.obj)
 #' }
-#' @method plot.vimp corerf
-#' @aliases plot.vimp.corerf plot.vimp
+#' @method plot.vimp covregrf
+#' @aliases plot.vimp.covregrf plot.vimp
 #'
 #' @seealso
-#'   \code{\link{vimp.corerf}}
+#'   \code{\link{vimp.covregrf}}
 
-plot.vimp.corerf <- function(x,
+plot.vimp.covregrf <- function(x,
                              sort = TRUE,
                              ndisp = NULL,
                              ...)
@@ -55,13 +55,13 @@ plot.vimp.corerf <- function(x,
   ## object cannot be missing
   if (missing(object)) {stop("object is missing!")}
   ## incoming object must be a grow forest object
-  if (sum(inherits(object, c("corerf", "grow"), TRUE) == c(1, 2)) != 2 &&
-      sum(inherits(object, c("corerf", "vimp"), TRUE) == c(1, 2)) != 2)
-    stop("this function only works for objects of class '(corerf, grow)' or
-         '(corerf, vimp)'")
+  if (sum(inherits(object, c("covregrf", "grow"), TRUE) == c(1, 2)) != 2 &&
+      sum(inherits(object, c("covregrf", "vimp"), TRUE) == c(1, 2)) != 2)
+    stop("this function only works for objects of class '(covregrf, grow)' or
+         '(covregrf, vimp)'")
   if (is.null(object$importance))
-    stop("Variable importance information is missing. Re-run corerf with
-           importance=TRUE or call vimp() for the corerf grow object.")
+    stop("Variable importance information is missing. Re-run covregrf with
+           importance=TRUE or call vimp() for the covregrf grow object.")
   ## verify key options
   sort <- match.arg(as.character(sort), c(TRUE,FALSE))
   ## get the vimp
@@ -86,7 +86,7 @@ plot.vimp.corerf <- function(x,
   barplot(vimp.out,
           horiz = TRUE,
           border = NA,
-          main = "Variable importance measures: corerf",
+          main = "Variable importance measures: covregrf",
           xlab = "vimp",
           col = "lightskyblue3",
           las = 1,
@@ -97,4 +97,4 @@ plot.vimp.corerf <- function(x,
   ## Return the plot.variable object for reuse
   invisible(vimp.out)
 }
-plot.vimp <- plot.vimp.corerf
+plot.vimp <- plot.vimp.covregrf

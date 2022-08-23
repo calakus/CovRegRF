@@ -15,21 +15,21 @@ formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 
 ## Test for small ntree
 test_that("small ntree",{
-  expect_error(corerf(formula=formula,
+  expect_error(covregrf(formula=formula,
                       data=traindata,
                       params.rfsrc=list(ntree = 2)),
                "Some observations have empty BOP. Increase the number of trees, 'ntree' in params.rfsrc.")
 })
 
 
-## run corerf
-rf <- corerf(formula=formula,
+## run covregrf
+rf <- covregrf(formula=formula,
              data=traindata,
              params.rfsrc=list(ntree = 50))
 
 ## nodesize is smaller than py
 test_that("nodesize",{
-  expect_error(corerf(formula=formula,
+  expect_error(covregrf(formula=formula,
                       data=traindata,
                       params.rfsrc=list(ntree = 50),
                       nodesize.set = c(1,2)),

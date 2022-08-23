@@ -1,4 +1,4 @@
-generic.predict.corerf <- function(object,
+generic.predict.covregrf <- function(object,
                                    newdata,
                                    ...)
 {
@@ -9,8 +9,8 @@ generic.predict.corerf <- function(object,
   if (missing(object)) {stop("object is missing!")}
 
   ## incoming object must be a grow forest object
-  if (sum(inherits(object, c("corerf", "grow"), TRUE) == c(1, 2)) != 2)
-    stop("this function only works for objects of class `(corerf, grow)'")
+  if (sum(inherits(object, c("covregrf", "grow"), TRUE) == c(1, 2)) != 2)
+    stop("this function only works for objects of class `(covregrf, grow)'")
 
   ## pull the xvar and yvar from the grow object
   xvar <- object$xvar
@@ -59,14 +59,14 @@ generic.predict.corerf <- function(object,
   }
 
   ## make the output object
-  corerf.output <- list(
+  covregrf.output <- list(
     predicted = predicted.out,
     n = ifelse(outcome == "test", nrow(newdata), object$n),
     xvar.names = xvar.names,
     yvar.names = yvar.names
   )
 
-  class(corerf.output) <- c("corerf", "predict")
+  class(covregrf.output) <- c("covregrf", "predict")
 
-  return(corerf.output)
+  return(covregrf.output)
 }

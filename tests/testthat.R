@@ -1,4 +1,4 @@
 library(testthat)
-library(CoReRF)
+library(CovRegRF)
 
-test_check("CoReRF")
+test_check("CovRegRF")

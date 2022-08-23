@@ -525,9 +525,9 @@ rfsrc <- function(formula, data, mvresp, ntree = 500,
                                   as.double(split.wt),
                                   as.double(yvar.wt),
                                   as.double(xvar.wt),
-                                  as.integer(all.names(formula, max.names = 1e7)[2] == "covreg"), # corerf
-                                  as.integer(ncol(mvresp)), # corerf
-                                  as.double(as.matrix(mvresp)), # corerf
+                                  as.integer(all.names(formula, max.names = 1e7)[2] == "covreg"), # covregrf
+                                  as.integer(ncol(mvresp)), # covregrf
+                                  as.double(as.matrix(mvresp)), # covregrf
                                   list(if(is.null(event.info$time.interest)) as.integer(0) else as.integer(length(event.info$time.interest)),
                                        if(is.null(event.info$time.interest)) NULL else as.double(event.info$time.interest)),
                                   as.integer(nimpute),

@@ -1,12 +1,12 @@
-#' Variable importance for corerf objects
+#' Variable importance for covregrf objects
 #'
 #' Calculates variable importance measures (VIMP) for covariates for training
 #'   data.
 #'
-#' @param object An object of class (corerf, grow).
+#' @param object An object of class (covregrf, grow).
 #' @param ... Optional arguments to be passed to other methods.
 #'
-#' @return An object of class \code{(corerf, vimp)} which is a list with the
+#' @return An object of class \code{(covregrf, vimp)} which is a list with the
 #'   following component:
 #'
 #'   \item{importance}{Variable importance measures (VIMP) for covariates.}
@@ -14,7 +14,7 @@
 #' @examples
 #' \donttest{
 #' ## load generated example data
-#' data(data, package = "CoReRF")
+#' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
 #' yvar.names <- colnames(data$Y)
 #' data1 <- data.frame(data$X, data$Y)
@@ -28,21 +28,21 @@
 #' ## formula object
 #' formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 #'
-#' ## train corerf
-#' corerf.obj <- corerf(formula, traindata, params.rfsrc = list(ntree = 50),
+#' ## train covregrf
+#' covregrf.obj <- covregrf(formula, traindata, params.rfsrc = list(ntree = 50),
 #'   importance = TRUE)
 #'
 #' ## get the variable importance measures
-#' vimp <- corerf.obj$importance
-#' vimp2 <- vimp(corerf.obj)$importance
+#' vimp <- covregrf.obj$importance
+#' vimp2 <- vimp(covregrf.obj)$importance
 #' }
-#' @method vimp corerf
-#' @aliases vimp.corerf vimp
+#' @method vimp covregrf
+#' @aliases vimp.covregrf vimp
 #'
 #' @seealso
-#'   \code{\link{plot.vimp.corerf}}
+#'   \code{\link{plot.vimp.covregrf}}
 
-vimp.corerf <- function(object,
+vimp.covregrf <- function(object,
                         ...)
 {
   ## get any hidden options
@@ -52,8 +52,8 @@ vimp.corerf <- function(object,
   if (missing(object)) {stop("object is missing!")}
 
   ## incoming object must be a grow forest object
-  if (sum(inherits(object, c("corerf", "grow"), TRUE) == c(1, 2)) != 2)
-    stop("this function only works for objects of class `(corerf, grow)'")
+  if (sum(inherits(object, c("covregrf", "grow"), TRUE) == c(1, 2)) != 2)
+    stop("this function only works for objects of class `(covregrf, grow)'")
 
   ## pull the xvar and yvar from the grow object
   xvar <- object$xvar
@@ -91,12 +91,12 @@ vimp.corerf <- function(object,
   vimp.out <- rowMeans(get.mv.vimp(vimprf,  standardize = TRUE))
 
   ## make the output object
-  corerf.output <- list(
+  covregrf.output <- list(
     importance = vimp.out
   )
 
-  class(corerf.output) <- c("corerf", "vimp")
+  class(covregrf.output) <- c("covregrf", "vimp")
 
-  return(corerf.output)
+  return(covregrf.output)
 }
-vimp <- vimp.corerf
+vimp <- vimp.covregrf

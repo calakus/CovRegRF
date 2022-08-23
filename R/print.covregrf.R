@@ -1,16 +1,16 @@
-#' Print summary output of a CoReRF analysis
+#' Print summary output of a CovRegRF analysis
 #'
-#' Print summary output of a CoReRF analysis. This is the default print method
+#' Print summary output of a CovRegRF analysis. This is the default print method
 #'   for the package.
 #'
-#' @param x An object of class \code{(corerf, grow)}, \code{(corerf, predict)}
-#'   or \code{(corerf, significancetest)}.
+#' @param x An object of class \code{(covregrf, grow)}, \code{(covregrf, predict)}
+#'   or \code{(covregrf, significancetest)}.
 #' @param ... Optional arguments to be passed to other methods.
 #'
 #' @examples
 #' \donttest{
 #' ## load generated example data
-#' data(data, package = "CoReRF")
+#' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
 #' yvar.names <- colnames(data$Y)
 #' data1 <- data.frame(data$X, data$Y)
@@ -24,32 +24,32 @@
 #' ## formula object
 #' formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 #'
-#' ## train corerf
-#' corerf.obj <- corerf(formula, traindata, params.rfsrc = list(ntree = 50))
+#' ## train covregrf
+#' covregrf.obj <- covregrf(formula, traindata, params.rfsrc = list(ntree = 50))
 #'
 #' ## print the grow object
-#' print(corerf.obj)
+#' print(covregrf.obj)
 #'
 #' ## predict with new test data
-#' pred.obj <- predict(corerf.obj, newdata = testdata)
+#' pred.obj <- predict(covregrf.obj, newdata = testdata)
 #'
 #' ## print the predict object
 #' print(pred.obj)
 #' }
-print.corerf <- function(x, ...) {
+print.covregrf <- function(x, ...) {
   ## check that the object is interpretable
-  if (sum(inherits(x, c("corerf", "grow"), TRUE) == c(1, 2)) != 2 &
-      sum(inherits(x, c("corerf", "predict"), TRUE) == c(1, 2)) != 2 &
-      sum(inherits(x, c("corerf", "significancetest"), TRUE) == c(1, 2)) != 2) {
-    stop("This function only works for objects of class `(corerf, grow)' or '(corerf, predict)' or '(corerf, significancetest)'.")
+  if (sum(inherits(x, c("covregrf", "grow"), TRUE) == c(1, 2)) != 2 &
+      sum(inherits(x, c("covregrf", "predict"), TRUE) == c(1, 2)) != 2 &
+      sum(inherits(x, c("covregrf", "significancetest"), TRUE) == c(1, 2)) != 2) {
+    stop("This function only works for objects of class `(covregrf, grow)' or '(covregrf, predict)' or '(covregrf, significancetest)'.")
   }
   ## which mode are we in?
   grow.mode <- FALSE
   predict.mode <- FALSE
   significance.mode <- FALSE
-  if (sum(inherits(x, c("corerf", "grow"), TRUE) == c(1, 2)) == 2) {
+  if (sum(inherits(x, c("covregrf", "grow"), TRUE) == c(1, 2)) == 2) {
     grow.mode <- TRUE
-  } else if (sum(inherits(x, c("corerf", "predict"), TRUE) == c(1, 2)) == 2) {
+  } else if (sum(inherits(x, c("covregrf", "predict"), TRUE) == c(1, 2)) == 2) {
     predict.mode <- TRUE
   } else {
     significance.mode <- TRUE

@@ -25,7 +25,7 @@ covariance matrix of Y. x3 is the noise variable.
 \examples{
 \donttest{
 ## load generated example data
-data(data, package = "CoReRF")
+data(data, package = "CovRegRF")
 }
 }
 \keyword{datasets}

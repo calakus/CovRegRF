@@ -1,16 +1,16 @@
-#' Predict method for corerf objects
+#' Predict method for covregrf objects
 #'
-#' Obtain predicted covariance matrices using a corerf forest for training or
+#' Obtain predicted covariance matrices using a covregrf forest for training or
 #'   new data.
 #'
-#' @param object An object of class \code{(corerf, grow)} created by the
-#'   function \code{corerf}.
+#' @param object An object of class \code{(covregrf, grow)} created by the
+#'   function \code{covregrf}.
 #' @param newdata Test data of the set of covariates. A data.frame with numeric
 #'  values and factors. If missing, the out-of-bag predictions in \code{object}
 #'  is returned.
 #' @param ... Optional arguments to be passed to other methods.
 #'
-#' @return An object of class \code{(corerf, predict)} which is a list with the
+#' @return An object of class \code{(covregrf, predict)} which is a list with the
 #'   following components:
 #'
 #'   \item{predicted}{Predicted covariance matrices for test data. If
@@ -25,7 +25,7 @@
 #' @examples
 #' \donttest{
 #' ## load generated example data
-#' data(data, package = "CoReRF")
+#' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
 #' yvar.names <- colnames(data$Y)
 #' data1 <- data.frame(data$X, data$Y)
@@ -39,28 +39,28 @@
 #' ## formula object
 #' formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 #'
-#' ## train corerf
-#' corerf.obj <- corerf(formula, traindata, params.rfsrc = list(ntree = 50))
+#' ## train covregrf
+#' covregrf.obj <- covregrf(formula, traindata, params.rfsrc = list(ntree = 50))
 #'
 #' ## predict without new data (OOB predictions will be returned)
-#' pred.obj <- predict(corerf.obj)
+#' pred.obj <- predict(covregrf.obj)
 #' pred.oob <- pred.obj$predicted
 #'
 #' ## predict with new test data
-#' pred.obj2 <- predict(corerf.obj, newdata = testdata)
+#' pred.obj2 <- predict(covregrf.obj, newdata = testdata)
 #' pred <- pred.obj2$predicted
 #' }
 #'
 #' @seealso
-#'   \code{\link{corerf}}
-#'   \code{\link{vimp.corerf}}
-#'   \code{\link{print.corerf}}
+#'   \code{\link{covregrf}}
+#'   \code{\link{vimp.covregrf}}
+#'   \code{\link{print.covregrf}}
 
-predict.corerf <- function(object,
+predict.covregrf <- function(object,
                            newdata,
                            ...)
 {
-  result.predict <- generic.predict.corerf(object,
+  result.predict <- generic.predict.covregrf(object,
                                            newdata,
                                            ...)
   return(result.predict)

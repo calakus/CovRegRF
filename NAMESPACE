@@ -1,4 +1,4 @@
-useDynLib(CoReRF, .registration = TRUE)
+useDynLib(CovRegRF, .registration = TRUE)
 
 importFrom("data.tree", "FromDataFrameNetwork", "SetGraphStyle",
            "SetEdgeStyle", "SetNodeStyle", "Do", "GetDefaultTooltip")
@@ -19,17 +19,17 @@ importFrom("utils", "installed.packages", "txtProgressBar", "setTxtProgressBar",
 importFrom("grDevices", "gray", "dev.off")
 import("data.table")
 
-export(corerf)
+export(covregrf)
 export(plot.vimp)
-export(plot.vimp.corerf)
-export(predict.corerf)
+export(plot.vimp.covregrf)
+export(predict.covregrf)
 export(significance.test)
 export(vimp)
-export(vimp.corerf)
+export(vimp.covregrf)
 
 S3method(plot, vimp)
-S3method(plot, vimp.corerf)
-S3method(predict, corerf)
+S3method(plot, vimp.covregrf)
+S3method(predict, covregrf)
 
 
 

@@ -14,7 +14,7 @@ remove(data)
 formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 
 ## vimp dimension
-rf <- corerf(formula=formula,
+rf <- covregrf(formula=formula,
              data=traindata,
              params.rfsrc=list(ntree = 50),
              importance=FALSE)

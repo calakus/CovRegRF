@@ -24,7 +24,7 @@
 #'   covariates. The default is \code{NULL}, which tests for the global effect
 #'   of the whole set of covariates.
 #'
-#' @return An object of class \code{(corerf, significancetest)} which is a list
+#' @return An object of class \code{(covregrf, significancetest)} which is a list
 #' with the following components:
 #'
 #'   \item{pvalue}{Estimated *p*-value, see below for details.}
@@ -68,7 +68,7 @@
 #'   the unconditional covariance matrix estimate of \eqn{Y} as
 #'   \eqn{\Sigma_{root}} which is computed as the sample covariance matrix of
 #'   \eqn{Y}, and the conditional covariance matrix of \eqn{Y} given \eqn{X} as
-#'   \eqn{\Sigma_{X}} which is obtained with \code{corerf()}. If there is a
+#'   \eqn{\Sigma_{X}} which is obtained with \code{covregrf()}. If there is a
 #'   global effect of \eqn{X} on the covariance matrix estimates, the
 #'   \eqn{\Sigma_{X}} should be significantly different from \eqn{\Sigma_{root}}.
 #'   The null hypothesis for this particular case is
@@ -77,7 +77,7 @@
 #' @examples
 #' \donttest{
 #' ## load generated example data
-#' data(data, package = "CoReRF")
+#' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
 #' yvar.names <- colnames(data$Y)
 #' data1 <- data.frame(data$X, data$Y)
@@ -95,9 +95,9 @@
 #' }
 #'
 #' @seealso
-#'   \code{\link{corerf}}
-#'   \code{\link{predict.corerf}}
-#'   \code{\link{print.corerf}}
+#'   \code{\link{covregrf}}
+#'   \code{\link{predict.covregrf}}
+#'   \code{\link{print.covregrf}}
 
 significance.test <- function(formula,
                               data,
@@ -158,8 +158,8 @@ significance.test <- function(formula,
   }
 
   if (is.null(test.vars)) { ## global significance test
-    ## run corerf for training observations
-    corerf.out <- corerf(
+    ## run covregrf for training observations
+    covregrf.out <- covregrf(
       formula,
       data = data.frame(xvar, yvar),
       params.rfsrc,
@@ -168,10 +168,10 @@ significance.test <- function(formula,
     )
 
     ## get predictions for training observations
-    predicted.oob <- corerf.out$predicted.oob
+    predicted.oob <- covregrf.out$predicted.oob
 
     ## get best nodesize
-    best.nodesize <- corerf.out$best.nodesize
+    best.nodesize <- covregrf.out$best.nodesize
 
     ## compute sample covariance matrix for the response
     cov.root <- cov(yvar)
@@ -182,15 +182,15 @@ significance.test <- function(formula,
                          function(x) sqrt(sum((x[upper.tri(x, diag = TRUE)] - upp.cov.root)^2))))
 
     ## permutations
-    n <- corerf.out$n
+    n <- covregrf.out$n
     Tstat.perm <- rep(0, nperm)
     predicted.perm <- vector("list", nperm)
     for (perm in 1:nperm) {
       ## permute covariates
       xvar.perm <- xvar[sample(n), ]
 
-      ## run corerf for training observations
-      corerf.out <- corerf(
+      ## run covregrf for training observations
+      covregrf.out <- covregrf(
         formula,
         data = data.frame(xvar.perm, yvar),
         params.rfsrc,
@@ -199,7 +199,7 @@ significance.test <- function(formula,
       )
 
       ## get predictions for permuted data
-      predicted.perm[[perm]] <- corerf.out$predicted.oob
+      predicted.perm[[perm]] <- covregrf.out$predicted.oob
 
       ## compute global test statistic T for permutations
       Tstat.perm[perm] <- mean(sapply(predicted.perm[[perm]],
@@ -218,38 +218,38 @@ significance.test <- function(formula,
     pxc <- length(control.vars)
     if (pxc < 1) {stop("there are no control variables.")}
 
-    ## run corerf for all variables
-    corerf.out <- corerf(
+    ## run covregrf for all variables
+    covregrf.out <- covregrf(
       formula,
       data = data.frame(xvar, yvar),
       params.rfsrc,
       nodesize.set,
       importance = FALSE
     )
-    params.rfsrc.all <- corerf.out$params.rfsrc
+    params.rfsrc.all <- covregrf.out$params.rfsrc
 
     ## get predictions for observations
-    predicted.oob <- corerf.out$predicted.oob
+    predicted.oob <- covregrf.out$predicted.oob
 
     ## get best nodesize
-    best.nodesize <- corerf.out$best.nodesize
+    best.nodesize <- covregrf.out$best.nodesize
 
-    ## run corerf for control variables
+    ## run covregrf for control variables
     formula.control = as.formula(paste(paste(yvar.names, collapse="+"), paste(control.vars, collapse="+"), sep=" ~ "))
-    corerf.out.control <- corerf(
+    covregrf.out.control <- covregrf(
       formula.control,
       data = data.frame(xvar[, control.vars, drop=FALSE], yvar),
       params.rfsrc,
       nodesize.set,
       importance = FALSE
     )
-    params.rfsrc.control <- corerf.out.control$params.rfsrc
+    params.rfsrc.control <- covregrf.out.control$params.rfsrc
 
     ## get predictions for training observations
-    predicted.oob.control <- corerf.out.control$predicted.oob
+    predicted.oob.control <- covregrf.out.control$predicted.oob
 
     ## get best nodesize
-    best.nodesize.control <- corerf.out.control$best.nodesize
+    best.nodesize.control <- covregrf.out.control$best.nodesize
 
     ## compute global test statistic T
     Tstat <- mean(sapply(1:n,
@@ -257,7 +257,7 @@ significance.test <- function(formula,
                                                  predicted.oob.control[[i]][upper.tri(predicted.oob.control[[i]], diag = TRUE)])^2))))
 
     ## permutations
-    n <- corerf.out$n
+    n <- covregrf.out$n
     Tstat.perm <- rep(0, nperm)
     predicted.perm <- vector("list", nperm)
     predicted.perm.control <- vector("list", nperm)
@@ -265,8 +265,8 @@ significance.test <- function(formula,
       ## permute covariates
       xvar.perm <- xvar[sample(n), ]
 
-      ## run corerf for all variables
-      corerf.out <- corerf(
+      ## run covregrf for all variables
+      covregrf.out <- covregrf(
         formula,
         data = data.frame(xvar.perm, yvar),
         params.rfsrc.all,
@@ -275,10 +275,10 @@ significance.test <- function(formula,
       )
 
       ## get predictions for permuted data
-      predicted.perm[[perm]] <- corerf.out$predicted.oob
+      predicted.perm[[perm]] <- covregrf.out$predicted.oob
 
-      ## run corerf for control variables
-      corerf.out.control <- corerf(
+      ## run covregrf for control variables
+      covregrf.out.control <- covregrf(
         formula.control,
         data = data.frame(xvar.perm[, control.vars, drop=FALSE], yvar),
         params.rfsrc.control,
@@ -287,7 +287,7 @@ significance.test <- function(formula,
       )
 
       ## get predictions for permuted data
-      predicted.perm.control[[perm]] <- corerf.out.control$predicted.oob
+      predicted.perm.control[[perm]] <- covregrf.out.control$predicted.oob
 
       ## compute global test statistic T for permutations
       Tstat.perm[perm] <- mean(sapply(1:n,
@@ -300,7 +300,7 @@ significance.test <- function(formula,
   pvalue <- sum(Tstat.perm > Tstat) / nperm
 
   ## make the output object
-  corerf.output <- list(
+  covregrf.output <- list(
     pvalue = pvalue,
     best.nodesize = best.nodesize,
     best.nodesize.control = if (is.null(test.vars)) {NULL} else {best.nodesize.control},
@@ -312,7 +312,7 @@ significance.test <- function(formula,
     predicted.perm.control = if (is.null(test.vars)) {NULL} else {predicted.perm.control}
   )
 
-  class(corerf.output) <- c("corerf", "significancetest")
+  class(covregrf.output) <- c("covregrf", "significancetest")
 
-  return(corerf.output)
+  return(covregrf.output)
 }

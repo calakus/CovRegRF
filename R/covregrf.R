@@ -40,7 +40,7 @@
 #'   \code{nodesize} levels, we select the smaller since in general deeper trees
 #'   are desired in random forests.
 #'
-#' @return An object of class \code{(corerf, grow)} which is a list with the
+#' @return An object of class \code{(covregrf, grow)} which is a list with the
 #'   following components:
 #'
 #'   \item{predicted.oob}{OOB predicted covariance matrices for training
@@ -61,7 +61,7 @@
 #' @examples
 #' \donttest{
 #' ## load generated example data
-#' data(data, package = "CoReRF")
+#' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
 #' yvar.names <- colnames(data$Y)
 #' data1 <- data.frame(data$X, data$Y)
@@ -75,27 +75,27 @@
 #' ## formula object
 #' formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 #'
-#' ## train corerf
-#' corerf.obj <- corerf(formula, traindata, params.rfsrc = list(ntree = 50),
+#' ## train covregrf
+#' covregrf.obj <- covregrf(formula, traindata, params.rfsrc = list(ntree = 50),
 #'   importance = TRUE)
 #'
 #' ## get the OOB predictions
-#' pred.oob <- corerf.obj$predicted.oob
+#' pred.oob <- covregrf.obj$predicted.oob
 #'
 #' ## predict with new test data
-#' pred.obj <- predict(corerf.obj, newdata = testdata)
+#' pred.obj <- predict(covregrf.obj, newdata = testdata)
 #' pred <- pred.obj$predicted
 #'
 #' ## get the variable importance measures
-#' vimp <- corerf.obj$importance
+#' vimp <- covregrf.obj$importance
 #' }
 #' @seealso
-#'   \code{\link{predict.corerf}}
+#'   \code{\link{predict.covregrf}}
 #'   \code{\link{significance.test}}
-#'   \code{\link{vimp.corerf}}
-#'   \code{\link{print.corerf}}
+#'   \code{\link{vimp.covregrf}}
+#'   \code{\link{print.covregrf}}
 
-corerf <- function(formula,
+covregrf <- function(formula,
                    data,
                    params.rfsrc = list(ntree = 1000, mtry = ceiling(px/3),
                                        nsplit = max(round(n/50), 10)),
@@ -296,7 +296,7 @@ corerf <- function(formula,
   }
 
   ## make the output object
-  corerf.output <- list(
+  covregrf.output <- list(
     predicted.oob = predicted.oob.out,
     importance = if (importance) {vimp.out} else {NULL},
     best.nodesize = best.nodesize,
@@ -309,7 +309,7 @@ corerf <- function(formula,
     rf.grow = rf.out
   )
 
-  class(corerf.output) <- c("corerf", "grow")
+  class(covregrf.output) <- c("covregrf", "grow")
 
-  return(corerf.output)
+  return(covregrf.output)
 }

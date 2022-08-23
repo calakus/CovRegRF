@@ -1,4 +1,4 @@
-Package: CoReRF
+Package: CovRegRF
 Type: Package
 Title: Covariance Regression with Random Forests
 Version: 0.0.0.9000
@@ -8,12 +8,12 @@ Authors@R:
       person(given = "Aurelie", family = "Labbe", role = c("aut"), email = "aurelie.labbe@hec.ca"),
       person(given = "Hemant", family = "Ishwaran", role = c("ctb"), comment = "Author of included randomForestSRC codes"),
       person(given = "Udaya B.", family = "Kogalur", role = c("ctb"), comment = "Author of included randomForestSRC codes"))
-Description: Covariance Regression with Random Forests (CoReRF) is a random 
+Description: Covariance Regression with Random Forests (CovRegRF) is a random 
     forest method for estimating the covariance matrix of a multivariate 
     response given a set of covariates. Random forest trees are built with a new 
     splitting rule which is designed to maximize the distance between the sample 
     covariance matrix estimates of the child nodes. The method is described in 
-    Alakus et al. (2022) <arXiv:...>. CoReRF uses 'randomForestSRC' package 
+    Alakus et al. (2022) <arXiv:...>. CovRegRF uses 'randomForestSRC' package 
     (Ishwaran and Kogalur, 2022) by freezing at the version 3.1.0. The custom 
     splitting rule feature is utilised to apply the proposed splitting rule.
 License: GPL (>= 3)

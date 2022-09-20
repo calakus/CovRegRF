@@ -40,7 +40,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This R package implements the **Cov**ariance **Reg**ression with **R**andom **F**orests (**CovRegRF**) method described in Alakus et al. (2022) [<arxiv:...>](urllink). The theoretical details of the proposed method are presented in Section 1 followed by a data analysis using this method in Section 2. 
+This R package implements the **Cov**ariance **Reg**ression with **R**andom **F**orests (**CovRegRF**) method described in Alakus et al. (2022) [<arxiv:2209.08173>](https://arxiv.org/abs/2209.08173). The theoretical details of the proposed method are presented in Section 1 followed by a data analysis using this method in Section 2. 
 
 # Proposed method
 
@@ -106,7 +106,7 @@ head(pred, 2)
 ```
 
 # References
-Alakus, C., Larocque, D., and Labbe, A. (2022). Covariance regression with random forests. arXiv ....
+Alakus, C., Larocque, D., and Labbe, A. (2022). Covariance regression with random forests. *arXiv preprint arXiv:2209.08173*.
 
 # Session info
 ```{r}

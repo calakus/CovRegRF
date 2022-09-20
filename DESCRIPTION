@@ -1,7 +1,7 @@
 Package: CovRegRF
 Type: Package
 Title: Covariance Regression with Random Forests
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: 
     c(person(given = "Cansu", family = "Alakus", role = c("aut", "cre"), email = "cansu.alakus@hec.ca"),
       person(given = "Denis", family = "Larocque", role = c("aut"), email = "denis.larocque@hec.ca"),
@@ -13,20 +13,21 @@ Description: Covariance Regression with Random Forests (CovRegRF) is a random
     response given a set of covariates. Random forest trees are built with a new 
     splitting rule which is designed to maximize the distance between the sample 
     covariance matrix estimates of the child nodes. The method is described in 
-    Alakus et al. (2022) <arXiv:...>. CovRegRF uses 'randomForestSRC' package 
+    Alakus et al. (2022) <arXiv:2209.08173>. CovRegRF uses 'randomForestSRC' package 
     (Ishwaran and Kogalur, 2022) by freezing at the version 3.1.0. The custom 
     splitting rule feature is utilised to apply the proposed splitting rule.
+Depends: R (>= 3.6.0)
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    knitr,
-    rmarkdown,
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
 RoxygenNote: 7.2.0
 Imports: 
     data.table,
     data.tree,
     DiagrammeR
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 VignetteBuilder: knitr

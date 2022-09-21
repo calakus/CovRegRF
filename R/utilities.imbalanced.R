@@ -81,7 +81,7 @@ get.imbalanced.performance.workhorse <- function (yvar, prob,
     prob.matx <- cbind(1 - prob, prob)
   }
   colnames(prob.matx) <- levels(y)
-  ## get rfq threshold (default) if one is not supplied    
+  ## get rfq threshold (default) if one is not supplied
   if (is.null(threshold)) {
     threshold <- as.numeric(pihat)
   }
@@ -100,7 +100,7 @@ get.imbalanced.performance.workhorse <- function (yvar, prob,
   ## sens=TP/(FN+TP)      =tpr=recall
   ## spec=TN/(TN+FP)      =tnr=1-fpr
   ## ppv=TP/(TP+FP)       =prec
-  ## npv=TN/(TN+FN)  
+  ## npv=TN/(TN+FN)
   ## ------------------------------------------
   yhat <- factor(1 * (prob >= threshold), levels = c(0, 1))
   confusion.matx <- table(y, yhat)
@@ -130,7 +130,7 @@ get.imbalanced.performance.workhorse <- function (yvar, prob,
     F1modgmean <- (F1mod + gmean) / 2
   }
   else {
-    sens <- spec <- prec <- npv <- misclass <- 
+    sens <- spec <- prec <- npv <- misclass <-
       F1 <- F1mod <- gmean <- F1gmean <- F1modgmean <- NA
   }
   ## performance values based on probability
@@ -199,7 +199,7 @@ get.imbalanced.optimize <- function(obj,
     if (class(obj)[1] != "rfsrc") {
       stop("obj must be a forest object")
     }
-    ## object is a forest ---> parse for (yvar, prob) 
+    ## object is a forest ---> parse for (yvar, prob)
     else {
       ## if newdata is provided, we swap the grow object with the predict object
       if (!is.null(newdata)) {
@@ -237,7 +237,10 @@ get.imbalanced.optimize <- function(obj,
     best <- which.max(x$F1modgmean)
   }
   if (plot.it) {
+    ## save par for later restoration
+    old.par <- par(no.readonly = TRUE)
     par(mfrow = c(2,2))
+    on.exit(par(old.par))
     pt <- x$threshold < 3 * x$threshold[best]
     plot(x$threshold[pt], x$gmean[pt], xlab = "threshold", ylab = "gmean")
     abline(v = x$threshold[best], lty = 2, col = "blue")
@@ -271,8 +274,8 @@ get.pr.auc <- function(truth, yhat) {
     truth <- y
   }
   ## if yhat is a matrix, extract probabilities for minority class
-  if (!is.null(ncol(yhat)) && ncol(yhat) == 2) {  
-    yhat <- yhat[, which.min(table(truth))]  
+  if (!is.null(ncol(yhat)) && ncol(yhat) == 2) {
+    yhat <- yhat[, which.min(table(truth))]
   }
   ## create pr (x,y) data
   x <- yhat[truth == 1]
@@ -300,8 +303,8 @@ get.pr.curve <- function(truth, yhat) {
     truth <- y
   }
   ## if yhat is a matrix, extract probabilities for minority class
-  if (!is.null(ncol(yhat)) && ncol(yhat) == 2) {  
-    yhat <- yhat[, which.min(table(truth))]  
+  if (!is.null(ncol(yhat)) && ncol(yhat) == 2) {
+    yhat <- yhat[, which.min(table(truth))]
   }
   ## create pr (x,y) data
   x <- yhat[truth == 1]
@@ -321,7 +324,7 @@ get.pr.workhorse <- function(scores.class0, scores.class1 = scores.class0, weigh
                      weights.class1 = {if (is.null(weights.class0)) {NULL} else {1 - weights.class0}},
                      sorted = FALSE,
                      minStepSize = min(1, ifelse(is.null(weights.class0), 1, sum(weights.class0)/100)),
-                     rand.compute = FALSE, curve = FALSE) 
+                     rand.compute = FALSE, curve = FALSE)
 {
   ## preliminary processing
   if (!sorted) {
@@ -339,7 +342,7 @@ get.pr.workhorse <- function(scores.class0, scores.class1 = scores.class0, weigh
   sorted.scores.class0 <- scores.class0
   sorted.scores.class1 <- scores.class1
   ## main workhorse
-  weights.class0 <- c(rep(1, length(sorted.scores.class0)), 
+  weights.class0 <- c(rep(1, length(sorted.scores.class0)),
                       rep(0, length(sorted.scores.class1)))
   sorted.scores.class0 <- c(sorted.scores.class0, sorted.scores.class1)
   o0 <- order(sorted.scores.class0)
@@ -381,7 +384,7 @@ get.pr.workhorse <- function(scores.class0, scores.class1 = scores.class0, weigh
   ## random auc
   if (rand.compute) {
     if (is.null(weights.class0)) {
-      rand.auc <- length(sorted.scores.class0)/(length(sorted.scores.class0) + 
+      rand.auc <- length(sorted.scores.class0)/(length(sorted.scores.class0) +
                                                 length(sorted.scores.class1))
     }
     else {

@@ -127,8 +127,8 @@ avector <- function(x, name = FALSE) {
 available <- function (package, lib.loc = NULL, quietly = TRUE)
 {
   package <- as.character(substitute(package))
-  installed <- package %in% installed.packages()
-  if (installed) {
+  installed <- find.package(package, quiet = TRUE)
+  if (length(installed) > 0) {
     require(package, quietly = TRUE, character.only = TRUE)
   }
     else {
@@ -262,7 +262,7 @@ get.coerced.survival.fmly <- function(fmly, subj, event.type, splitrule = NULL) 
         ## assume no coercion
         coerced.fmly <- "surv"
         if (!is.null(splitrule)) {
-            if (is.null(subj)) {             
+            if (is.null(subj)) {
                 ## either competing risks or right censoring competing risks
                 ## is coerced to right censoring in some settings
                 if ((length(event.type) > 1) &&
@@ -276,7 +276,7 @@ get.coerced.survival.fmly <- function(fmly, subj, event.type, splitrule = NULL) 
             }
         }
         else {
-            if (is.null(subj)) { 
+            if (is.null(subj)) {
                 if (length(event.type) > 1) {
                     coerced.fmly <- "surv-CR"
                 }
@@ -291,7 +291,7 @@ get.coerced.survival.fmly <- function(fmly, subj, event.type, splitrule = NULL) 
     }
     coerced.fmly
 }
-## get grow mtry 
+## get grow mtry
 get.grow.mtry <- function (mtry = NULL, n.xvar, fmly, splitrule = NULL) {
   if (!is.null(mtry)) {
     mtry <- round(mtry)
@@ -402,7 +402,7 @@ get.grow.splitinfo <- function (formula.detail, splitrule, hdim, nsplit, event.i
       splitpass <- TRUE
     }
   }
-  ## do this unless pass given for split 
+  ## do this unless pass given for split
   if (!splitpass) {
     ## if splitrule is present, confirm it is correctly set
     if (!is.null(splitrule)) {
@@ -422,7 +422,7 @@ get.grow.splitinfo <- function (formula.detail, splitrule, hdim, nsplit, event.i
           }
         }
         else if (event.info$r.dim == 3) {
-          ## Time Dependent Covariates:                    
+          ## Time Dependent Covariates:
           splitrule.idx <- which(splitrule.names == "tdc.gradient")
         }
         else {
@@ -448,7 +448,7 @@ get.grow.splitinfo <- function (formula.detail, splitrule, hdim, nsplit, event.i
         }
         else if (event.info$r.dim == 3) {
           if (splitrule.idx != which(splitrule.names == "tdc.gradient")) {
-            stop("Must specify tdc.gradient for time dependent covariates")                        
+            stop("Must specify tdc.gradient for time dependent covariates")
           }
         }
         else {
@@ -553,7 +553,7 @@ get.grow.splitinfo <- function (formula.detail, splitrule, hdim, nsplit, event.i
   }## completes !splitpass
   ## set nsplit based on splitrule
   if(!is.null(nsplit)) {
-    nsplit <- round(nsplit)    
+    nsplit <- round(nsplit)
     if (nsplit < 0) {
       stop("Invalid nsplit value: set nsplit >= 0")
     }
@@ -574,7 +574,7 @@ get.grow.splitinfo <- function (formula.detail, splitrule, hdim, nsplit, event.i
     else {
       nsplit <- 10
     }
-  }    
+  }
   splitinfo <- list(name = splitrule, index = splitrule.idx, cust = cust.idx, nsplit = nsplit)
   return (splitinfo)
 }
@@ -618,7 +618,7 @@ get.impute.mean <- function(data) {
   names(imean) <- colnames(data)
   imean
 }
- 
+
 get.nmiss <- function(xvar, yvar = NULL) {
   if (!is.null(yvar)) {
     sum(apply(yvar, 1, function(x){any(is.na(x))}) | apply(xvar, 1, function(x){any(is.na(x))}))
@@ -648,7 +648,7 @@ get.outcome.target <- function(family, yvar.names, outcome.target) {
 get.rfnames <- function(hidden = TRUE, stealth = FALSE) {
   rfnames <- names(formals(rfsrc))
   if (hidden) {
-    rfnames <- c(rfnames,              
+    rfnames <- c(rfnames,
                "impute.only",
                "presort.xvar",
                "experimental",
@@ -660,7 +660,7 @@ get.rfnames <- function(hidden = TRUE, stealth = FALSE) {
                "vtry",
                "holdout.array")
   }
-   
+
   rfnames
 }
 get.weight <- function(weight, n) {
@@ -742,7 +742,7 @@ global.prob.assign <- function(prob, prob.epsilon, gk.quantile, quantile.regr, s
       }
       ## neither are missing
       else {
-        ##nothing        
+        ##nothing
       }
     }
     ## quantile splitting is in effect but no gk estimation
@@ -803,7 +803,7 @@ make.holdout.array <- function(vtry = 0, p, ntree, ntree.allvars = NULL) {
     holdout
   }
   ## otherwise pad the array with 0's so that no variables are held out
-  ## put them at the front for split-optimization  
+  ## put them at the front for split-optimization
   else {
     cbind(matrix(0, p, ntree.allvars), holdout)
   }
@@ -949,20 +949,20 @@ parseFormula <- function(f, data, ytry = NULL, coerce.factor = NULL) {
       }
       ## are all the responses factors?
       ## caution: ordered factors are factors!
-      if ((sum(unlist(lapply(Y, is.factor))) + 
+      if ((sum(unlist(lapply(Y, is.factor))) +
           length(coerce.factor$yvar.names)) == length(yvar.names)) {
         family <- "class+"
       }
       ## are all the responses continuous?
       ## caution: ordered factors are factors!
-      else if ((sum(unlist(lapply(Y, is.factor))) + 
+      else if ((sum(unlist(lapply(Y, is.factor))) +
           length(coerce.factor$yvar.names)) == 0) {
         family <- "regr+"
       }
       ## are the responses a combination of factors and continuous?
       ## caution: ordered factors are factors!
       else if (((sum(unlist(lapply(Y, is.factor))) +
-                 length(coerce.factor$yvar.names)) > 0) && 
+                 length(coerce.factor$yvar.names)) > 0) &&
                ((sum(unlist(lapply(Y, is.factor))) +
                  length(coerce.factor$yvar.names)) < length(yvar.names))) {
         family <- "mix+"

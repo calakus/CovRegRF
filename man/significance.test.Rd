@@ -100,7 +100,7 @@ We perform a hypothesis test to evaluate the effect of a subset of covariates
 }
 
 \examples{
-\donttest{
+
 ## load generated example data
 data(data, package = "CovRegRF")
 xvar.names <- colnames(data$X)
@@ -117,7 +117,6 @@ significance.test(formula, data1, params.rfsrc = list(ntree = 50),
 ## test the global effect of covariates
 significance.test(formula, data1, params.rfsrc = list(ntree = 50),
   nperm = 5, test.vars = NULL)
-}
 
 }
 \seealso{

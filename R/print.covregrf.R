@@ -8,7 +8,7 @@
 #' @param ... Optional arguments to be passed to other methods.
 #'
 #' @examples
-#' \donttest{
+#'
 #' ## load generated example data
 #' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
@@ -35,7 +35,7 @@
 #'
 #' ## print the predict object
 #' print(pred.obj)
-#' }
+#'
 print.covregrf <- function(x, ...) {
   ## check that the object is interpretable
   if (sum(inherits(x, c("covregrf", "grow"), TRUE) == c(1, 2)) != 2 &

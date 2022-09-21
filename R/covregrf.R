@@ -59,7 +59,6 @@
 #'     prediction with training or new data.}
 #'
 #' @examples
-#' \donttest{
 #' ## load generated example data
 #' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
@@ -88,7 +87,7 @@
 #'
 #' ## get the variable importance measures
 #' vimp <- covregrf.obj$importance
-#' }
+#'
 #' @seealso
 #'   \code{\link{predict.covregrf}}
 #'   \code{\link{significance.test}}

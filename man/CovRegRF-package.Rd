@@ -22,13 +22,14 @@ utilised to apply the proposed splitting rule.
   \code{\link{significance.test}}
   \code{\link{vimp.covregrf}}
   \code{\link{plot.vimp.covregrf}}
+  \code{\link{print.covregrf}}
 }
 
 \references{
 Alakus, C., Larocque, D., and Labbe, A. (2022). Covariance
   regression with random forests. arXiv preprint arXiv:2209.08173.
 
-Ishwaran H, Kogalur U (2022). Fast Unified Random Forests for
+Ishwaran H., Kogalur U. (2022). Fast Unified Random Forests for
   Survival, Regression, and Classification (RF-SRC). R package version 3.1.0,
   \url{https://cran.r-project.org/package=randomForestSRC}.
 }

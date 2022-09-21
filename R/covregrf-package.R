@@ -16,6 +16,7 @@
 #'   \code{\link{significance.test}}
 #'   \code{\link{vimp.covregrf}}
 #'   \code{\link{plot.vimp.covregrf}}
+#'   \code{\link{print.covregrf}}
 #'
 #' @references Alakus, C., Larocque, D., and Labbe, A. (2022). Covariance
 #'   regression with random forests. arXiv preprint arXiv:2209.08173.

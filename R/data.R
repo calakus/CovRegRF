@@ -14,8 +14,7 @@
 #'   X has 3 columns and Y has 3 columns.
 #'
 #' @examples
-#' \donttest{
 #' ## load generated example data
 #' data(data, package = "CovRegRF")
-#' }
+#'
 "data"

@@ -75,7 +75,7 @@
 #'   \deqn{H_0 : \Sigma_{X} = \Sigma_{root}}
 #'
 #' @examples
-#' \donttest{
+#'
 #' ## load generated example data
 #' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
@@ -92,7 +92,6 @@
 #' ## test the global effect of covariates
 #' significance.test(formula, data1, params.rfsrc = list(ntree = 50),
 #'   nperm = 5, test.vars = NULL)
-#' }
 #'
 #' @seealso
 #'   \code{\link{covregrf}}

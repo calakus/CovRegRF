@@ -23,9 +23,8 @@ response variables. x1 and x2 are the importantvariables for the varying
 covariance matrix of Y. x3 is the noise variable.
 }
 \examples{
-\donttest{
 ## load generated example data
 data(data, package = "CovRegRF")
-}
+
 }
 \keyword{datasets}

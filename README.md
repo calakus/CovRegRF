@@ -21,4 +21,4 @@ devtools::install_github('calakus/CovRegRF', build_vignettes = TRUE)
 ```   
 ## References
 
-- Alakus, C., Larocque, D., and Labbe, A. (2022). Covariance regression with random forests. *arXiv preprint arXiv:2209.08173*.
+- Alakus, C., Larocque, D., and Labbe, A. (2023). Covariance regression with random forests. *BMC Bioinformatics* 24, 258.

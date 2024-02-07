@@ -19,7 +19,7 @@
    vvvvvvvv Do Not Touch These Delarations Below vvvvvvvv
 */
 
-void registerCustomFunctions();
+void registerCustomFunctions(void);
 
 extern void registerThis (double (*func) (unsigned int    n,
                                           char           *membership,
@@ -145,11 +145,8 @@ double sampleCovEuclideanDist (unsigned int n,
 unsigned int *alloc_uivector(unsigned int nh);
 void          dealloc_uivector(unsigned int *v, unsigned int nh);
 
-double       *alloc_dvector(double *v, unsigned int nh);
-void          dealloc_dvector(double *v, unsigned int nh);
-
 unsigned int **alloc_uimatrix(unsigned int n2h, unsigned int nh);
 void          dealloc_uimatrix(unsigned int **v, unsigned int n2h, unsigned int nh);
 
-double *alloc_dvector2(unsigned int ncols);
-void dealloc_dvector2(double *v, unsigned int ncols);
+double *alloc_dvector(unsigned int nh);
+void dealloc_dvector(double *v);

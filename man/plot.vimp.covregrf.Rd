@@ -27,7 +27,7 @@ Invisibly, the variable importance measures that were plotted.
 Plots variable importance measures (VIMP) for covariates for training data.
 }
 \examples{
-
+\donttest{
 ## load generated example data
 data(data, package = "CovRegRF")
 xvar.names <- colnames(data$X)
@@ -49,6 +49,7 @@ covregrf.obj <- covregrf(formula, traindata, params.rfsrc = list(ntree = 50),
 
 ## plot vimp
 plot.vimp(covregrf.obj)
+}
 
 }
 \seealso{

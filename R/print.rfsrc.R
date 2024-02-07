@@ -16,7 +16,7 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
     print.default(x)
     return()
   }
-  ## processing for synthetic forests        
+  ## processing for synthetic forests
   sf.flag <- FALSE
   if (sum(inherits(x, c("rfsrc", "synthetic"), TRUE) == c(1, 2)) == 2) {
     if (sum(inherits(x, c("rfsrc", "synthetic", "oob"), TRUE) == c(1, 2, 3)) != 3) {
@@ -27,12 +27,12 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
   }
   ## processing for subsampled object
   if (sum(inherits(x, c("rfsrc", "subsample"), TRUE) == c(1, 4)) == 2) {
-    print.subsample(x, ...)
+    # print.subsample(x, ...)
     return()
   }
   ## processing for subsampled-bootstrap object?
   if (sum(inherits(x, c("rfsrc", "bootsample"), TRUE) == c(1, 4)) == 2) {
-    print.bootsample(x, ...)
+    # print.bootsample(x, ...)
     return()
   }
   ## check that the object is interpretable
@@ -134,7 +134,7 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
       }
     }
   }
-  ## error rates 
+  ## error rates
   if (!is.null(x$err.rate)) {
     err.rate <- cbind(x$err.rate)
     allcol.na <- apply(err.rate, 2, function(x) {all(is.na(x))})
@@ -200,7 +200,7 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
     cat("       Average no. of terminal nodes: ", digits.pretty(mean(x$leaf.count), 4), "\n", sep="")
     cat("No. of variables tried at each split: ", x$mtry,                               "\n", sep="")
     cat("              Total no. of variables: ", length(x$xvar.names),                 "\n", sep="")
-    if (!x$univariate) { 
+    if (!x$univariate) {
       cat("              Total no. of responses: ", yvar.dim,                           "\n", sep="")
       cat("         User has requested response: ", outcome.target,                     "\n", sep="")
     }
@@ -214,7 +214,7 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
     }
     else {
       cat("                      Splitting rule: ", x$splitrule,                        "\n", sep="")
-    } 
+    }
     if (!is.null(err.rate)) {
       if (x$family == "regr" && !is.null(r.squared)) {
         cat("                     (OOB) R squared: ", digits.pretty(r.squared, 8),      "\n", sep="")
@@ -252,7 +252,7 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
       print(conf.matx)
         cat("\n      (OOB) Misclassification rate: ", miss.err.rate,   "\n", sep="")
     }
-     
+
   }
   #################################################################################
   ##
@@ -276,8 +276,8 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
     }
     cat("                Number of grow trees: ", x$ntree,                                "\n",sep="")
     cat("  Average no. of grow terminal nodes: ", digits.pretty(mean(x$leaf.count), 4),   "\n", sep="")
-    cat("         Total no. of grow variables: ", length(x$xvar.names),                   "\n", sep="")  
-    if (!x$univariate) { 
+    cat("         Total no. of grow variables: ", length(x$xvar.names),                   "\n", sep="")
+    if (!x$univariate) {
       cat("         Total no. of grow responses: ", yvar.dim,                             "\n", sep="")
       cat("         User has requested response: ", outcome.target,                       "\n", sep="")
     }
@@ -322,13 +322,13 @@ print.rfsrc <- function(x, outcome.target = NULL, ...) {
       print(conf.matx)
         cat("\n           Misclassification error: ", miss.err.rate,  "\n", sep="")
     }
-     
+
   }
   #################################################################################
   ##
   ## synthetic forest flag
   ##
-  ################################################################################# 
+  #################################################################################
   if (sf.flag) {
     message(sf.message)
   }

@@ -81,6 +81,7 @@ Estimates the covariance matrix of a multivariate response given a set of
 }
 
 \examples{
+\donttest{
 ## load generated example data
 data(data, package = "CovRegRF")
 xvar.names <- colnames(data$X)
@@ -109,6 +110,7 @@ pred <- pred.obj$predicted
 
 ## get the variable importance measures
 vimp <- covregrf.obj$importance
+}
 
 }
 \seealso{

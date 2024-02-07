@@ -74,7 +74,7 @@ plot.rfsrc <- function (x, m.target = NULL, plots.one.page = TRUE, sorted = TRUE
     if (x$ntree > 1 && !all(is.na(x$err.rate))) {
       err <- cbind(x$err.rate)
       par(mfrow = c(1,1))
-      plot.err(err, plot.yvar.names)
+      # plot.err(err, plot.yvar.names)
     }
   }
     else {
@@ -104,7 +104,7 @@ plot.rfsrc <- function (x, m.target = NULL, plots.one.page = TRUE, sorted = TRUE
           par(mfrow = c(1,1))
         }
       if (x$ntree > 1 & !all(is.na(x$err.rate))) {
-        plot.err(err, plot.yvar.names)
+        # plot.err(err, plot.yvar.names)
       }
       ## CR/classification scenarios
       if (ncol(imp) > 1) {
@@ -143,16 +143,16 @@ plot.rfsrc <- function (x, m.target = NULL, plots.one.page = TRUE, sorted = TRUE
   }
 }
 ## error rate plot
-plot.err <- function(err, yname = NULL) {
-  matplot(1:nrow(err), err,
-          xlab = "Number of Trees",
-          ylab = paste("Error rate", yname),
-          type = c("p", "l")[1 + 1 * (nrow(err) > 1)], pch = 16, lty = 1, lwd = 3)
-  if (ncol(err) > 1) {
-    legend("topright",
-           legend = colnames(err), col = 1:ncol(err), lty = 1, lwd = 3)
-  }
-}
+# plot.err <- function(err, yname = NULL) {
+#   matplot(1:nrow(err), err,
+#           xlab = "Number of Trees",
+#           ylab = paste("Error rate", yname),
+#           type = c("p", "l")[1 + 1 * (nrow(err) > 1)], pch = 16, lty = 1, lwd = 3)
+#   if (ncol(err) > 1) {
+#     legend("topright",
+#            legend = colnames(err), col = 1:ncol(err), lty = 1, lwd = 3)
+#   }
+# }
 ## pretty dotchart
 dotChart <- function(x, yname = NULL, labels = NULL, cex = cex) {
   if (!is.null(dim(x))) {

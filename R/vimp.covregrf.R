@@ -12,7 +12,7 @@
 #'   \item{importance}{Variable importance measures (VIMP) for covariates.}
 #'
 #' @examples
-#'
+#' \donttest{
 #' ## load generated example data
 #' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
@@ -35,6 +35,7 @@
 #' ## get the variable importance measures
 #' vimp <- covregrf.obj$importance
 #' vimp2 <- vimp(covregrf.obj)$importance
+#' }
 #'
 #' @method vimp covregrf
 #' @aliases vimp.covregrf vimp

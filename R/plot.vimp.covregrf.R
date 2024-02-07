@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-#'
+#' \donttest{
 #' ## load generated example data
 #' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
@@ -38,6 +38,7 @@
 #'
 #' ## plot vimp
 #' plot.vimp(covregrf.obj)
+#' }
 #'
 #' @method plot.vimp covregrf
 #' @aliases plot.vimp.covregrf plot.vimp

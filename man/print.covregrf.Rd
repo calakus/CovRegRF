@@ -12,12 +12,16 @@ or \code{(covregrf, significancetest)}.}
 
 \item{...}{Optional arguments to be passed to other methods.}
 }
+\value{
+Returns a \code{character} string for the summary of CovRegRF
+  analysis.
+}
 \description{
 Print summary output of a CovRegRF analysis. This is the default print method
   for the package.
 }
 \examples{
-
+\donttest{
 ## load generated example data
 data(data, package = "CovRegRF")
 xvar.names <- colnames(data$X)
@@ -44,5 +48,5 @@ pred.obj <- predict(covregrf.obj, newdata = testdata)
 
 ## print the predict object
 print(pred.obj)
-
+}
 }

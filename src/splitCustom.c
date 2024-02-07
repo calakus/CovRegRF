@@ -1,8 +1,18 @@
-#include  <stdlib.h>
-#include  <math.h>
-#include  "splitCustom.h"
-#include <cblas.h>
-#include <lapacke.h>
+#define USE_FC_LEN_T
+#include <R.h>
+#include <Rinternals.h>
+#include <Rdefines.h>
+
+#include <stdlib.h>
+#include <math.h>
+#include "splitCustom.h"
+
+#include <R_ext/Lapack.h>
+#include <R_ext/BLAS.h>
+
+#ifndef FCONE
+# define FCONE
+#endif
 
 /*
 
@@ -21,7 +31,7 @@
   
  */
 
-void registerCustomFunctions() {
+void registerCustomFunctions(void) {
 
   // Register the custom classification split rule in the first slot.
   registerThis (&getCustomSplitStatisticMultivariateClassification, CLAS_FAM, 1);
@@ -640,9 +650,9 @@ double sampleCovEuclideanDist (unsigned int n,
                                unsigned int featureCount)
 {
     double dist = 0.00, colSumL = 0.00, colSumR = 0.00, colMeanL = 0.00, colMeanR = 0.00;
-    unsigned int leftSize = 0, rghtSize= 0;
-    unsigned int i, j, row, col, ixLeft = 0, ixRight = 0;
-    unsigned int dimY = featureCount; // number of response variables
+    int leftSize = 0, rghtSize= 0;
+    int i, j, row, col, ixLeft = 0, ixRight = 0;
+    int dimY = featureCount; // number of response variables
 
     for (i = 1; i <= n; i++) {
         // Membership will be either LEFT or RIGHT.
@@ -653,8 +663,8 @@ double sampleCovEuclideanDist (unsigned int n,
     if( (leftSize > dimY) && (rghtSize > dimY) ){
 
         // Assignment of left and right response matrices
-        double *leftY = alloc_dvector2((leftSize*dimY));
-        double *rightY = alloc_dvector2((rghtSize*dimY));
+        double *leftY = alloc_dvector(leftSize * dimY);
+        double *rightY = alloc_dvector(rghtSize * dimY);
 
         for (row = 1; row <= n; row++) {
             if(membership[row] == LEFT) {
@@ -693,16 +703,19 @@ double sampleCovEuclideanDist (unsigned int n,
         }
 
 
-        double *leftCov = alloc_dvector2((dimY*dimY));
-        double *rghtCov = alloc_dvector2((dimY*dimY));
+        double *leftCov = alloc_dvector(dimY * dimY);
+        double *rghtCov = alloc_dvector(dimY * dimY);
         int nRow;
 
         // Covariance matrix computation for left and right nodes
+        char transa = 'T', transb = 'N';
+        double alpha = 1, beta = 0;
+        
         nRow = leftSize;
-        cblas_dgemm( CblasColMajor,  CblasTrans,  CblasNoTrans, dimY, dimY, nRow, 1, leftY, nRow, leftY, nRow, 0, leftCov, dimY);
-
+        F77_CALL(dgemm)(&transa, &transb, &dimY, &dimY, &nRow, &alpha, leftY, &nRow, leftY, &nRow, &beta, leftCov, &dimY FCONE FCONE);
+        
         nRow = rghtSize;
-        cblas_dgemm( CblasColMajor,  CblasTrans,  CblasNoTrans, dimY, dimY, nRow, 1, rightY, nRow, rightY, nRow, 0, rghtCov, dimY);
+        F77_CALL(dgemm)(&transa, &transb, &dimY, &dimY, &nRow, &alpha, rightY, &nRow, rightY, &nRow, &beta, rghtCov, &dimY FCONE FCONE);
         
         // Euclidean distance between left and right covariance matrices
         for (i = 0; i < dimY; i++) {
@@ -712,10 +725,10 @@ double sampleCovEuclideanDist (unsigned int n,
         }
         dist = sqrt(dist);
         
-        dealloc_dvector2(leftY, (leftSize*dimY));
-        dealloc_dvector2(rightY, (rghtSize*dimY));
-        dealloc_dvector2(leftCov, (dimY*dimY));
-        dealloc_dvector2(rghtCov, (dimY*dimY));
+        dealloc_dvector(leftY);
+        dealloc_dvector(rightY);
+        dealloc_dvector(leftCov);
+        dealloc_dvector(rghtCov);
     }
 
     return (dist*sqrt(leftSize*rghtSize));
@@ -745,17 +758,6 @@ void dealloc_uivector(unsigned int *v, unsigned int nh)
   free((char *) v);
 }
 
-
-double *alloc_dvector(double *v, unsigned int nh)
-{
-  return (double *) malloc((size_t) ((nh+1) * (sizeof(double))));
-}
-
-void dealloc_dvector(double *v, unsigned int nh)
-{
-  free((char *) v);
-}
-
 unsigned int **alloc_uimatrix(unsigned int n2h, unsigned int nh)
 {
   unsigned int **v = (unsigned int **) malloc((size_t) ((n2h+1) * (sizeof(unsigned int *))));
@@ -774,13 +776,14 @@ void dealloc_uimatrix(unsigned int **v, unsigned int n2h, unsigned int nh)
   free((char *) v);
 }
 
-double *alloc_dvector2(unsigned int ncols)
+double *alloc_dvector(unsigned int nh)
 {
-    return (double *) malloc((size_t) ((ncols+1) * (sizeof(double))));
+  return (double *) malloc((size_t) (nh * (sizeof(double))));
 }
 
-void dealloc_dvector2(double *v, unsigned int ncols)
+void dealloc_dvector(double *v)
 {
-    free((char *) v);
+  free((char *) v);
 }
+
 

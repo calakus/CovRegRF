@@ -13,13 +13,13 @@ remove(data)
 
 formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
 
-## vimp dimension
-rf <- covregrf(formula=formula,
-             data=traindata,
-             params.rfsrc=list(ntree = 50),
-             importance=FALSE)
-
 test_that("vimp",{
+  skip_on_cran()
+  ## vimp dimension
+  rf <- covregrf(formula=formula,
+                 data=traindata,
+                 params.rfsrc=list(ntree = 50),
+                 importance=FALSE)
   expect_equal(rf$importance,NULL)
   expect_equal(length(vimp(rf)$importance),length(xvar.names))
 })

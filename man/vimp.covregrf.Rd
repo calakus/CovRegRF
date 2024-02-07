@@ -23,7 +23,7 @@ Calculates variable importance measures (VIMP) for covariates for training
   data.
 }
 \examples{
-
+\donttest{
 ## load generated example data
 data(data, package = "CovRegRF")
 xvar.names <- colnames(data$X)
@@ -46,6 +46,7 @@ covregrf.obj <- covregrf(formula, traindata, params.rfsrc = list(ntree = 50),
 ## get the variable importance measures
 vimp <- covregrf.obj$importance
 vimp2 <- vimp(covregrf.obj)$importance
+}
 
 }
 \seealso{

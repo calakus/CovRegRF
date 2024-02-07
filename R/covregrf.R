@@ -59,6 +59,7 @@
 #'     prediction with training or new data.}
 #'
 #' @examples
+#' \donttest{
 #' ## load generated example data
 #' data(data, package = "CovRegRF")
 #' xvar.names <- colnames(data$X)
@@ -87,6 +88,7 @@
 #'
 #' ## get the variable importance measures
 #' vimp <- covregrf.obj$importance
+#' }
 #'
 #' @seealso
 #'   \code{\link{predict.covregrf}}
@@ -95,11 +97,11 @@
 #'   \code{\link{print.covregrf}}
 
 covregrf <- function(formula,
-                   data,
-                   params.rfsrc = list(ntree = 1000, mtry = ceiling(px/3),
-                                       nsplit = max(round(n/50), 10)),
-                   nodesize.set = round(0.5^(1:100) * sampsize)[round(0.5^(1:100) * sampsize) > py],
-                   importance = FALSE)
+                     data,
+                     params.rfsrc = list(ntree = 1000, mtry = ceiling(px/3),
+                                         nsplit = max(round(n/50), 10)),
+                     nodesize.set = round(0.5^(1:100) * sampsize)[round(0.5^(1:100) * sampsize) > py],
+                     importance = FALSE)
 {
   ## initial checks for the data set
   if (is.null(data)) {stop("'data' is missing.")}

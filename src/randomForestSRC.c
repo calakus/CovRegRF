@@ -3074,13 +3074,13 @@ void printTreeInfo(uint treeID, Node *parent) {
     printTreeInfo(treeID, parent -> right);
   }
 }
-void initTimer() {
+void initTimer(void) {
 }
-void printTimer() {
+void printTimer(void) {
 }
 void printParameters(char mode) {
 }
-void processDefaultGrow() {
+void processDefaultGrow(void) {
   RF_optHigh = RF_optHigh & (~OPT_MEMB_PRUN);
   RF_ptnCount             = 0;
   RF_optHigh = RF_optHigh & (~OPT_PART_PLOT);
@@ -3181,7 +3181,7 @@ void processDefaultGrow() {
     RF_nImpute = 1;
   }
 }
-void processDefaultPredict() {
+void processDefaultPredict(void) {
   char mode;
   RF_opt = RF_opt & (~OPT_IMPU_ONLY);
   RF_opt = RF_opt & (~OPT_TREE);
@@ -6489,7 +6489,7 @@ char xferMissingness(char mode, Node *source, Terminal *destination) {
   }
   return xferFlag;
 }
-LeafLinkedObj *makeLeafLinkedObj() {
+LeafLinkedObj *makeLeafLinkedObj(void) {
   LeafLinkedObj *obj = (LeafLinkedObj*) gblock((size_t) sizeof(LeafLinkedObj));
   obj -> fwdLink = NULL;
   obj -> bakLink = NULL;
@@ -6501,7 +6501,7 @@ LeafLinkedObj *makeLeafLinkedObj() {
   obj -> allMembrCount = 0;
   return obj;
 }
-LeafLinkedObjSimple *makeLeafLinkedObjSimple() {
+LeafLinkedObjSimple *makeLeafLinkedObjSimple(void) {
   LeafLinkedObjSimple *obj = (LeafLinkedObjSimple*) gblock((size_t) sizeof(LeafLinkedObjSimple));
   obj -> fwdLink = NULL;
   obj -> bakLink = NULL;
@@ -7703,7 +7703,7 @@ void nrCopyVector(char *new, char *old, unsigned int ncol) {
     new[j] = old[j];
   }
 }
-void testEndianness() {
+void testEndianness(void) {
   unsigned int     test = 0x12345678;
   unsigned int *testPtr = & test;
   RF_nativePrint("\nTest of Endianness:  ");
@@ -9297,7 +9297,7 @@ void makeLookUpTree(LookUpInfo *infoObj, QuantileObj *qObj, uint size, uint dept
   else {
   }
 }
-LookUpInfo *makeLookUpInfo() {
+LookUpInfo *makeLookUpInfo(void) {
   LookUpInfo *obj = (LookUpInfo*) gblock((size_t) sizeof(LookUpInfo));
   obj -> qPtr    = NULL;
   obj -> rootPtr = NULL;
@@ -11638,11 +11638,11 @@ void getVariablesUsed(uint treeID, Node *parent, uint *varUsedVector) {
   }
   return;
 }
-DistributionObj *makeDistributionObjRaw() {
+DistributionObj *makeDistributionObjRaw(void) {
   DistributionObj *obj = (DistributionObj*) gblock((size_t) sizeof(DistributionObj));
   return obj;
 }
-DistributionObj *makeDistributionObjFull() {
+DistributionObj *makeDistributionObjFull(void) {
   DistributionObj *obj = (DistributionObj*) gblock((size_t) sizeof(DistributionObj));
   obj -> permissibleIndex  = NULL;
   obj -> permissible       = NULL;
@@ -16049,7 +16049,7 @@ char randomSGS (uint       treeID,
   result = summarizeSplitResult(splitInfoMax);
   return result;
 }
-LatOptTreeObj *makeLatOptTreeObj() {
+LatOptTreeObj *makeLatOptTreeObj(void) {
   LatOptTreeObj *lotObj = (LatOptTreeObj*) gblock((size_t) sizeof(LatOptTreeObj));
   lotObj -> risk  = dvector(1, RF_lotLag+1);
   for (uint i = 1; i <= (uint) RF_lotLag; i++) {
@@ -21071,7 +21071,7 @@ void convertRelToAbsBinaryPair(uint    treeID,
     relativePair = relativePair >> 1;
   }
 }
-void initPreSortExtra() {
+void initPreSortExtra(void) {
   RF_observationRank = (uint ***) new_vvector(1, RF_ntree, NRUTIL_UPTR2);
   RF_rankValue = (double ***) new_vvector(1, RF_ntree, NRUTIL_DPTR2);
   RF_observationUniqueSize = (uint **) new_vvector(1, RF_ntree, NRUTIL_UPTR);
@@ -21117,7 +21117,7 @@ void freePreSortIntra(uint treeID) {
   free_new_vvector(RF_rankValue[treeID], 1, RF_xSize, NRUTIL_DPTR);
   free_uivector(RF_observationUniqueSize[treeID], 1, RF_xSize);
 }
-void freePreSortExtra() {
+void freePreSortExtra(void) {
   free_new_vvector(RF_observationUniqueSize, 1, RF_ntree, NRUTIL_UPTR);
   free_new_vvector(RF_rankValue, 1, RF_ntree, NRUTIL_DPTR2);
   free_new_vvector(RF_observationRank, 1, RF_ntree, NRUTIL_UPTR2);
@@ -21503,7 +21503,7 @@ uint stackAndConstructSplitVectorSimple (uint     treeID,
   free_uivector(localRankIndex, 1, rankLength);
   return vectorSize;
 }
-SortedLinkedObj *makeSortedLinkedObj() {
+SortedLinkedObj *makeSortedLinkedObj(void) {
   SortedLinkedObj *obj = (SortedLinkedObj*) gblock((size_t) sizeof(SortedLinkedObj));
   obj -> fwdLink = NULL;
   obj -> bakLink = NULL;
@@ -28713,7 +28713,7 @@ void writeTNQuantitativeForestObjectsOutput(char mode) {
     }
   }
 }
-void verifyAndRegisterCustomSplitRules() {
+void verifyAndRegisterCustomSplitRules(void) {
   uint familyConstant;
   uint i, j;
   familyConstant = 0;  
@@ -29030,7 +29030,7 @@ void unstackAuxiliaryInfoAndList(char targetFlag, SNPAuxiliaryInfo **list, uint 
    }
   free_new_vvector(list, 0, count, NRUTIL_XPTR);
 }
-void memoryCheck() {
+void memoryCheck(void) {
   if (RF_nativeIndex != RF_stackCount) {
     RF_nativeError("\nRF-SRC:  *** ERROR *** ");
     RF_nativeError("\nRF-SRC:  Stack imbalance in PROTECT/UNPROTECT:  %10d + 1 versus %10d  ", RF_nativeIndex, RF_stackCount);
@@ -29480,7 +29480,7 @@ void unstackPreDefinedCommonArrays(char         mode,
   }
   free_uivector(RF_getTreeIndex, 1, RF_ntree);
 }
-void stackPreDefinedGrowthArrays() {
+void stackPreDefinedGrowthArrays(void) {
   uint i;
   if (RF_opt & OPT_VIMP) {
     RF_intrPredictorSize = RF_xSize;
@@ -29527,7 +29527,7 @@ void stackPreDefinedGrowthArrays() {
     }
   }
 }
-void unstackPreDefinedGrowthArrays() {
+void unstackPreDefinedGrowthArrays(void) {
   if (RF_opt & OPT_VIMP) {
     free_uivector(RF_intrPredictor, 1, RF_intrPredictorSize);
     free_cvector(RF_importanceFlag, 1, RF_xSize);
@@ -29546,7 +29546,7 @@ void unstackPreDefinedGrowthArrays() {
                    RF_yWeightSorted); 
   }
 }
-void stackPreDefinedRestoreArrays() {
+void stackPreDefinedRestoreArrays(void) {
   uint i;
   if (RF_opt & OPT_VIMP) {
     checkInteraction();
@@ -29559,12 +29559,12 @@ void stackPreDefinedRestoreArrays() {
     }
   }
 }
-void unstackPreDefinedRestoreArrays() {
+void unstackPreDefinedRestoreArrays(void) {
   if (RF_opt & OPT_VIMP) {
     free_cvector(RF_importanceFlag, 1, RF_xSize);
   }
 }
-void stackPreDefinedPredictArrays() {
+void stackPreDefinedPredictArrays(void) {
   uint i;
   RF_fnodeMembership = (Node ***)     new_vvector(1, RF_ntree, NRUTIL_NPTR2);
   RF_ftTermMembership = (Terminal ***) new_vvector(1, RF_ntree, NRUTIL_TPTR2);
@@ -29587,7 +29587,7 @@ void stackPreDefinedPredictArrays() {
     }
   }
 }
-void unstackPreDefinedPredictArrays() {
+void unstackPreDefinedPredictArrays(void) {
   free_new_vvector(RF_fnodeMembership, 1, RF_ntree, NRUTIL_NPTR2);
   free_new_vvector(RF_ftTermMembership, 1, RF_ntree, NRUTIL_TPTR2);
   free_uivector(RF_fidentityMembershipIndex, 1, RF_fobservationSize);
@@ -29596,7 +29596,7 @@ void unstackPreDefinedPredictArrays() {
     free_cvector(RF_importanceFlag, 1, RF_xSize);
   }
 }
-void checkInteraction() {
+void checkInteraction(void) {
   uint leadingIndex, i;
   if((RF_intrPredictorSize <= 0) || (RF_intrPredictorSize > RF_xSize)) {
     RF_nativeError("\nRF-SRC:  *** ERROR *** ");
@@ -31178,7 +31178,7 @@ double pythag(double a, double b) {
   else
     return (absb == 0.0 ? 0.0 : absb * sqrt(1.0 + ((absa/absb) * (absa/absb))));
 }
-void harness() {
+void harness(void) {
   uint M, N;
   M = 3;
   N = 4;
@@ -31241,7 +31241,7 @@ void harness() {
   free_dmatrix(aplus, 1, N, 1, M);  
   free_svdcmp(a, M, N, u, w, v);
 }
-Terminal *makeTerminal() {
+Terminal *makeTerminal(void) {
   Terminal *parent = (Terminal*) gblock((size_t) sizeof(Terminal));
   parent -> lmiIndex      = NULL;
   parent -> lmiValue      = NULL;
@@ -34993,7 +34993,7 @@ clock_t cpuTimeStart = clock();
   R_ReleaseObject(RF_sexpVector[RF_STRG_ID]);
   return RF_sexpVector[RF_OUTP_ID];
 }
-void exit2R() {
+void exit2R(void) {
   error("\nRF-SRC:  The application will now exit.\n");
 }
 void printR(char *format, ...) {
@@ -35001,12 +35001,12 @@ void printR(char *format, ...) {
   va_list aptr;
   buffer = (char *) malloc(sizeof(char) * 1023);
   va_start(aptr, format);
-  vsprintf(buffer, format, aptr);
+  vsnprintf(buffer, sizeof(char) * 1023, format, aptr);
   va_end(aptr);
-  Rprintf(buffer);
+  Rprintf("%s", buffer);
   free((char *) buffer);
 }
-void setNativeGlobalEnv() {
+void setNativeGlobalEnv(void) {
   RF_nativeIndex = RF_stackCount = 0;
 }
 void *copy1DObject(SEXP arr, char type, uint size, char actual) {
@@ -35182,6 +35182,6 @@ void *stackAndProtect(char   mode,
 void setUserTraceFlag (uint traceFlag) {
   RF_userTraceFlag = traceFlag;
 }
-uint getUserTraceFlag () {
+uint getUserTraceFlag (void) {
   return RF_userTraceFlag;
 }

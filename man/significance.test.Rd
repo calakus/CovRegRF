@@ -99,26 +99,6 @@ We perform a hypothesis test to evaluate the effect of a subset of covariates
   \deqn{H_0 : \Sigma_{X} = \Sigma_{root}}
 }
 
-\examples{
-
-## load generated example data
-data(data, package = "CovRegRF")
-xvar.names <- colnames(data$X)
-yvar.names <- colnames(data$Y)
-data1 <- data.frame(data$X, data$Y)
-
-## formula object
-formula <- as.formula(paste(paste(yvar.names, collapse="+"), ".", sep=" ~ "))
-
-## test the effect of x3, while controlling for the x1 and x2
-significance.test(formula, data1, params.rfsrc = list(ntree = 50),
-  nperm = 5, test.vars = "x3")
-
-## test the global effect of covariates
-significance.test(formula, data1, params.rfsrc = list(ntree = 50),
-  nperm = 5, test.vars = NULL)
-
-}
 \seealso{
 \code{\link{covregrf}}
   \code{\link{predict.covregrf}}
